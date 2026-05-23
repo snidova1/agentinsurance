@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>AgentInsurance — YZi Labs Pitch</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reset.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-1: #FFF8F0;
+      --bg-2: #FFE8F0;
+      --bg-3: #F3E8FF;
+      --purple: #7C3AED;
+      --purple-light: #A78BFA;
+      --pink: #EC4899;
+      --pink-light: #F9A8D4;
+      --yellow: #FBBF24;
+      --blue: #60A5FA;
+      --green: #34D399;
+      --text: #4C1D95;
+      --text-soft: #7C3AED;
+      --muted: #6B7280;
+    }
+    .reveal {
+      font-family: 'Nunito', system-ui, sans-serif;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .reveal .slides section {
+      text-align: left;
+      padding: 60px;
+      box-sizing: border-box;
+      background: linear-gradient(135deg, #FFF8F0 0%, #FFE8F0 50%, #F3E8FF 100%);
+      border-radius: 0;
+    }
+    .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+      font-family: 'Nunito', sans-serif;
+      font-weight: 800;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      text-transform: none;
+      text-align: left;
+    }
+    .reveal h1 { font-size: 3.4em; line-height: 1.05; }
+    .reveal h2 { font-size: 2.4em; line-height: 1.1; margin-bottom: 0.5em; }
+    .reveal h3 { font-size: 1.6em; }
+    .reveal p, .reveal li { color: var(--text); font-size: 1.05em; line-height: 1.55; }
+    .reveal strong { color: var(--purple); font-weight: 800; }
+    .reveal a { color: var(--pink); text-decoration: none; font-weight: 700; }
+    .reveal ul { list-style: none; padding-left: 0; }
+    .reveal ul li { padding-left: 28px; position: relative; margin-bottom: 12px; }
+    .reveal ul li::before {
+      content: '✦';
+      color: var(--pink);
+      position: absolute;
+      left: 0;
+      font-size: 1.1em;
+      top: 0;
+    }
+    .gradient { 
+      background: linear-gradient(135deg, #7C3AED 0%, #EC4899 100%); 
+      -webkit-background-clip: text; 
+      background-clip: text; 
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      display: inline;
+    }
+    .gradient-warm { 
+      background: linear-gradient(135deg, #EC4899 0%, #FBBF24 100%); 
+      -webkit-background-clip: text; 
+      background-clip: text; 
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+      display: inline;
+    }
+    /* Print/PDF mode — disable webkit gradient (causes outline artifact in chromium PDF print) */
+    @media print {
+      .gradient, .gradient-warm {
+        background: none !important;
+        -webkit-background-clip: initial !important;
+        background-clip: initial !important;
+        -webkit-text-fill-color: initial !important;
+        color: #7C3AED !important;
+      }
+      .gradient-warm {
+        color: #EC4899 !important;
+      }
+      .reveal .slides section {
+        padding: 70px !important;
+      }
+    }
+    .badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.7);
+      border: 2px solid rgba(167,139,250,0.4);
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 0.7em;
+      font-weight: 800;
+      color: var(--purple);
+      margin-bottom: 18px;
+      letter-spacing: 0.02em;
+    }
+    .card {
+      background: rgba(255,255,255,0.75);
+      border: 2px solid rgba(167,139,250,0.25);
+      border-radius: 24px;
+      padding: 22px;
+      backdrop-filter: blur(8px);
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 18px; }
+    .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 14px; }
+    .stat-num { font-size: 2.6em; font-weight: 900; line-height: 1; margin-bottom: 4px; }
+    .stat-label { font-size: 0.7em; color: var(--muted); font-weight: 700; }
+    .footer-bar {
+      position: absolute;
+      bottom: 22px;
+      left: 60px;
+      right: 60px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.55em;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .icon-circle {
+      width: 56px; height: 56px;
+      border-radius: 18px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 14px;
+      box-shadow: 0 8px 20px rgba(124,58,237,0.15);
+    }
+    .icon-svg { width: 28px; height: 28px; stroke-width: 2; fill: none; stroke: white; stroke-linecap: round; stroke-linejoin: round; }
+    .mascot { width: 200px; }
+    .reveal .progress { color: var(--purple); }
+    .reveal .controls { color: var(--purple); }
+    .pricing-row {
+      display: flex; justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px dashed rgba(167,139,250,0.3);
+      font-size: 0.95em;
+    }
+    .pricing-row:last-child { border-bottom: none; font-weight: 800; color: var(--purple); }
+    .timeline {
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+    }
+    .timeline-item {
+      background: rgba(255,255,255,0.75);
+      border-radius: 16px;
+      padding: 16px;
+      border: 2px solid rgba(167,139,250,0.25);
+    }
+    .timeline-item .num {
+      display: inline-block;
+      min-width: 48px;
+      height: 28px;
+      padding: 0 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #7C3AED, #EC4899);
+      color: white; font-weight: 900;
+      text-align: center; line-height: 28px;
+      font-size: 0.78em;
+      margin-bottom: 8px;
+      letter-spacing: 0.02em;
+    }
+    .timeline-item h4 { font-size: 0.95em; margin: 4px 0; color: var(--text); }
+    .timeline-item p { font-size: 0.7em; color: var(--muted); margin: 0; }
+
+    /* Hero slide */
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 280px; gap: 40px;
+      align-items: center; height: 100%;
+    }
+
+    /* Quote */
+    .pull-quote {
+      font-style: italic;
+      font-size: 1.4em;
+      font-weight: 700;
+      color: var(--purple);
+      border-left: 4px solid var(--pink);
+      padding-left: 24px;
+      margin: 24px 0;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+      <!-- 1. Cover -->
+      <section>
+        <div class="hero-grid">
+          <div>
+            <div class="badge">✨ YZi Labs EASY Residency S4 ✨</div>
+            <h1><span class="gradient">AgentInsurance</span></h1>
+            <h3 style="color: var(--text-soft); font-weight: 700; margin-top: 16px;">Parametric insurance for the AI agent economy.</h3>
+            <p style="margin-top: 28px; color: var(--muted);">Smart contract triggers. Instant USDC payouts. AI-native risk scoring.</p>
+            <p style="margin-top: 36px; font-size: 0.85em; color: var(--purple); font-weight: 800;">snidova · May 2026</p>
+          </div>
+          <svg class="mascot" viewBox="0 0 140 140">
+            <ellipse cx="70" cy="125" rx="34" ry="5" fill="#7C3AED" opacity="0.18"/>
+            <line x1="70" y1="25" x2="70" y2="10" stroke="#7C3AED" stroke-width="3" stroke-linecap="round"/>
+            <circle cx="70" cy="8" r="5" fill="#FBBF24"/>
+            <ellipse cx="70" cy="70" rx="50" ry="55" fill="url(#bodyGrad)"/>
+            <ellipse cx="55" cy="50" rx="14" ry="18" fill="white" opacity="0.28"/>
+            <circle cx="38" cy="78" r="6" fill="#FFB7B7" opacity="0.85"/>
+            <circle cx="102" cy="78" r="6" fill="#FFB7B7" opacity="0.85"/>
+            <circle cx="55" cy="62" r="6" fill="#1a1a2e"/>
+            <circle cx="85" cy="62" r="6" fill="#1a1a2e"/>
+            <circle cx="57" cy="60" r="2" fill="white"/>
+            <circle cx="87" cy="60" r="2" fill="white"/>
+            <path d="M 55 82 Q 70 92 85 82" stroke="#1a1a2e" stroke-width="3" stroke-linecap="round" fill="none"/>
+            <ellipse cx="120" cy="75" rx="8" ry="14" fill="url(#bodyGrad)"/>
+            <ellipse cx="20" cy="75" rx="8" ry="14" fill="url(#bodyGrad)"/>
+            <path d="M 70 105 C 70 100 65 96 60 100 C 55 104 65 112 70 115 C 75 112 85 104 80 100 C 75 96 70 100 70 105 Z" fill="#EC4899"/>
+            <defs>
+              <linearGradient id="bodyGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#A78BFA"/>
+                <stop offset="100%" stop-color="#7C3AED"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <div class="footer-bar"><span>AgentInsurance</span><span>1 / 11</span></div>
+      </section>
+
+      <!-- 2. Problem -->
+      <section>
+        <div class="badge">The problem</div>
+        <h2>AI agents now manage <span class="gradient-warm">$4.2B+</span><br>and zero of it is insurable.</h2>
+        <div class="grid-3" style="margin-top: 36px;">
+          <div class="card">
+            <div class="icon-circle" style="background: linear-gradient(135deg, #FCA5A5, #F9A8D4);">
+              <svg class="icon-svg" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+            </div>
+            <h3 style="font-size: 1.05em; margin-bottom: 8px;">Market failures</h3>
+            <p style="font-size: 0.85em;">Flash crashes, oracle drift, liquidity drains. Agent acts correctly — environment shifts.</p>
+          </div>
+          <div class="card">
+            <div class="icon-circle" style="background: linear-gradient(135deg, #FCD34D, #FDBA74);">
+              <svg class="icon-svg" viewBox="0 0 24 24"><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M12 8V4H8"/><path d="M9 13v2"/><path d="M15 13v2"/></svg>
+            </div>
+            <h3 style="font-size: 1.05em; margin-bottom: 8px;">Agent failures</h3>
+            <p style="font-size: 0.85em;">Prompt injection, model drift, faulty decision logic. The agent itself misbehaves.</p>
+          </div>
+          <div class="card">
+            <div class="icon-circle" style="background: linear-gradient(135deg, #93C5FD, #C4B5FD);">
+              <svg class="icon-svg" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            </div>
+            <h3 style="font-size: 1.05em; margin-bottom: 8px;">Infra failures</h3>
+            <p style="font-size: 0.85em;">RPC outages, key compromise, oracle downtime. External systems break.</p>
+          </div>
+        </div>
+        <p class="pull-quote" style="margin-top: 30px;">"Traditional insurers don't price agent risk. DeFi insurers exclude AI losses. Manual claims take 30-90 days. By payout, the protocol is dead."</p>
+        <div class="footer-bar"><span>Problem</span><span>2 / 11</span></div>
+      </section>
+
+      <!-- 3. Solution -->
+      <section>
+        <div class="badge">The solution</div>
+        <h2>Parametric insurance, <span class="gradient">written for agents.</span></h2>
+        <div class="grid-2" style="margin-top: 30px;">
+          <div class="card">
+            <div class="icon-circle" style="background: linear-gradient(135deg, #C4B5FD, #F9A8D4);">
+              <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+            </div>
+            <h3 style="font-size: 1.1em;">On-chain triggers</h3>
+            <p style="font-size: 0.9em;">Loss thresholds, oracle deviation, anomaly detection. No claim adjustment. No human in the loop.</p>
+          </div>
+          <div class="card">
+            <div class="icon-circle" style="background: linear-gradient(135deg, #FCD34D, #FDBA74);">
+              <svg class="icon-svg" viewBox="0 0 24 24"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+            </div>
+            <h3 style="font-size: 1.1em;">USDC payout in 60s</h3>
+            <p style="font-size: 0.9em;">Smart contract executes the payout the moment the trigger condition resolves on-chain.</p>
+          </div>
+          <div class="card">
+            <div class="icon-circle" style="background: linear-gradient(135deg, #F9A8D4, #C4B5FD);">
+              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+            </div>
+            <h3 style="font-size: 1.1em;">AI-native pricing</h3>
+            <p style="font-size: 0.9em;">Premiums scored from agent behavior, not actuarial templates. Better data → better pricing → market share.</p>
+          </div>
+          <div class="card">
+            <div class="icon-circle" style="background: linear-gradient(135deg, #6EE7B7, #93C5FD);">
+              <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+            </div>
+            <h3 style="font-size: 1.1em;">Multi-chain by default</h3>
+            <p style="font-size: 0.9em;">Solana, Base, Arbitrum, BSC. Coverage follows the capital, not the chain.</p>
+          </div>
+        </div>
+        <div class="footer-bar"><span>Solution</span><span>3 / 11</span></div>
+      </section>
+
+      <!-- 4. How it works -->
+      <section>
+        <div class="badge">How it works</div>
+        <h2>Four steps. <span class="gradient">No paperwork.</span></h2>
+        <div class="timeline" style="margin-top: 36px;">
+          <div class="timeline-item">
+            <span class="num">1</span>
+            <h4>Connect agent</h4>
+            <p>Wallet + behavior data. We profile its baseline.</p>
+          </div>
+          <div class="timeline-item">
+            <span class="num">2</span>
+            <h4>Pick coverage</h4>
+            <p>$10K – $1M. Set loss threshold, duration, premium quoted on-chain.</p>
+          </div>
+          <div class="timeline-item">
+            <span class="num">3</span>
+            <h4>Oracle watches</h4>
+            <p>Decentralized network monitors triggers 24/7.</p>
+          </div>
+          <div class="timeline-item">
+            <span class="num">4</span>
+            <h4>Auto-payout</h4>
+            <p>Trigger fires → USDC sent in &lt;60s. No claim form.</p>
+          </div>
+        </div>
+        <p class="pull-quote" style="margin-top: 30px; font-size: 1.1em;">"What Lloyd's of London does in 90 days, AgentInsurance does in 47 seconds — and the smart contract is the underwriter."</p>
+        <div class="footer-bar"><span>Mechanics</span><span>4 / 11</span></div>
+      </section>
+
+      <!-- 5. Live product -->
+      <section>
+        <div class="badge">Live today</div>
+        <h2>Already shipping. <span class="gradient-warm">Not a deck-only pitch.</span></h2>
+        <div class="grid-3" style="margin-top: 36px;">
+          <div class="card">
+            <div class="stat-num gradient">14d</div>
+            <div class="stat-label">Solo build to live MVP</div>
+          </div>
+          <div class="card">
+            <div class="stat-num gradient">3</div>
+            <div class="stat-label">Interactive demo scenarios</div>
+          </div>
+          <div class="card">
+            <div class="stat-num gradient">100%</div>
+            <div class="stat-label">Open source on GitHub</div>
+          </div>
+        </div>
+        <div class="card" style="margin-top: 28px; background: rgba(255,255,255,0.85);">
+          <h3 style="font-size: 1.1em; margin-bottom: 12px;">What's live right now</h3>
+          <ul style="font-size: 0.9em; column-count: 2; column-gap: 30px;">
+            <li>Production landing page (Next.js + Framer Motion)</li>
+            <li>4-step quote calculator with on-screen pricing</li>
+            <li>3 interactive payout demos (trading bot, agent error, data leak)</li>
+            <li>Working email waitlist</li>
+            <li>Custom design system, mascot, SVG icons</li>
+            <li>Deployed via Vercel CI</li>
+          </ul>
+          <p style="margin-top: 14px; font-size: 0.85em; color: var(--purple);"><strong>agentinsurance.vercel.app</strong> · <strong>github.com/snidova1/agentinsurance</strong></p>
+        </div>
+        <div class="footer-bar"><span>Traction</span><span>5 / 11</span></div>
+      </section>
+
+      <!-- 6. Market -->
+      <section>
+        <div class="badge">Market</div>
+        <h2>The TAM compounds with the <span class="gradient">agentic economy.</span></h2>
+        <div class="grid-3" style="margin-top: 36px;">
+          <div class="card">
+            <div class="stat-label" style="margin-bottom: 6px;">2026 — TODAY</div>
+            <div class="stat-num gradient">$2-3B</div>
+            <p style="font-size: 0.78em; color: var(--muted); margin-top: 4px;">Insurable agent capital</p>
+            <p style="font-size: 0.78em; margin-top: 6px;"><strong>$60-90M</strong> annual premium</p>
+          </div>
+          <div class="card">
+            <div class="stat-label" style="margin-bottom: 6px;">2030 — 5Y</div>
+            <div class="stat-num gradient">$50-90B</div>
+            <p style="font-size: 0.78em; color: var(--muted); margin-top: 4px;">Insurable agent capital</p>
+            <p style="font-size: 0.78em; margin-top: 6px;"><strong>$1.5-2.7B</strong> annual premium</p>
+          </div>
+          <div class="card">
+            <div class="stat-label" style="margin-bottom: 6px;">2035 — 10Y</div>
+            <div class="stat-num gradient">$400-600B</div>
+            <p style="font-size: 0.78em; color: var(--muted); margin-top: 4px;">Insurable agent capital</p>
+            <p style="font-size: 0.78em; margin-top: 6px;"><strong>$12-18B</strong> annual premium</p>
+          </div>
+        </div>
+        <div class="card" style="margin-top: 22px; background: linear-gradient(135deg, rgba(167,139,250,0.18), rgba(236,72,153,0.18));">
+          <p style="font-size: 0.95em; margin: 0;">At <strong>1% market share long-term</strong> = $120-180M ARR. Even a fraction is a category-defining outcome — and the data moat compounds with every policy written.</p>
+        </div>
+        <div class="footer-bar"><span>TAM</span><span>6 / 11</span></div>
+      </section>
+
+      <!-- 7. Business model -->
+      <section>
+        <div class="badge">Business model</div>
+        <h2>Four streams. <span class="gradient">One compounding flywheel.</span></h2>
+        <div class="grid-2" style="margin-top: 30px;">
+          <div class="card">
+            <h3 style="font-size: 1em;">1. Premium fees <span style="color: var(--pink); font-size: 0.7em;">Day 1</span></h3>
+            <p style="font-size: 0.85em;">2-5% of coverage in USDC. <strong>$1,500 avg</strong> at $50K coverage.</p>
+          </div>
+          <div class="card">
+            <h3 style="font-size: 1em;">2. Risk pool yield <span style="color: var(--pink); font-size: 0.7em;">Month 3</span></h3>
+            <p style="font-size: 0.85em;">Float earns 4-8% APY in DeFi. 60/40 split with LPs.</p>
+          </div>
+          <div class="card">
+            <h3 style="font-size: 1em;">3. Risk data licensing <span style="color: var(--pink); font-size: 0.7em;">Month 12</span></h3>
+            <p style="font-size: 0.85em;">$2-10K/mo per integration. <strong>20 integrations = $1M+ ARR.</strong></p>
+          </div>
+          <div class="card">
+            <h3 style="font-size: 1em;">4. Reinsurance <span style="color: var(--pink); font-size: 0.7em;">Year 2</span></h3>
+            <p style="font-size: 0.85em;">Institutional capital on top of retail. 0.5-1% take rate at scale.</p>
+          </div>
+        </div>
+        <div class="card" style="margin-top: 22px; background: rgba(255,255,255,0.85);">
+          <h3 style="font-size: 0.95em; margin-bottom: 10px;">Per-policy economics</h3>
+          <div class="pricing-row"><span>Average coverage</span><span>$50,000</span></div>
+          <div class="pricing-row"><span>Average premium (3%)</span><span>$1,500</span></div>
+          <div class="pricing-row"><span>Loss ratio target</span><span>60%</span></div>
+          <div class="pricing-row"><span>Operating cost</span><span>~$200</span></div>
+          <div class="pricing-row"><span>Net margin per policy</span><span>$400-450</span></div>
+        </div>
+        <div class="footer-bar"><span>Monetization</span><span>7 / 11</span></div>
+      </section>
+
+      <!-- 8. Competition -->
+      <section>
+        <div class="badge">Competition</div>
+        <h2>No direct competitor. <span class="gradient">Adjacent players are wrong-shaped.</span></h2>
+        <div class="card" style="margin-top: 30px;">
+          <div class="grid-2" style="gap: 24px;">
+            <div>
+              <h3 style="font-size: 1em;">Nexus Mutual / Sherlock</h3>
+              <p style="font-size: 0.85em;">Cover smart-contract bugs, not agent behavior. Manual claims, weeks-long voting.</p>
+              <p style="font-size: 0.85em; color: var(--pink);"><strong>We:</strong> parametric, instant, agent-native triggers.</p>
+            </div>
+            <div>
+              <h3 style="font-size: 1em;">InsurAce / Bridge / Unslashed</h3>
+              <p style="font-size: 0.85em;">Generic DeFi coverage. Same exclusion problem.</p>
+              <p style="font-size: 0.85em; color: var(--pink);"><strong>We:</strong> dedicated category — agent risk only.</p>
+            </div>
+            <div>
+              <h3 style="font-size: 1em;">Coalition / At-Bay (cyber)</h3>
+              <p style="font-size: 0.85em;">Off-chain, manual claims. Explicitly exclude algorithmic decisions.</p>
+              <p style="font-size: 0.85em; color: var(--pink);"><strong>We:</strong> on-chain native, no AI exclusions.</p>
+            </div>
+            <div>
+              <h3 style="font-size: 1em;">DIY / Self-insurance</h3>
+              <p style="font-size: 0.85em;">Most operators today just hold reserves. Capital-inefficient.</p>
+              <p style="font-size: 0.85em; color: var(--pink);"><strong>We:</strong> 5-10x more deployable capital with the same risk budget.</p>
+            </div>
+          </div>
+        </div>
+        <p class="pull-quote" style="margin-top: 22px; font-size: 1em;">Moats: data (every policy improves pricing), integration (composable contracts), brand (first-mover in "agent insurance"), open source (community trust).</p>
+        <div class="footer-bar"><span>Moats</span><span>8 / 11</span></div>
+      </section>
+
+      <!-- 9. Founder -->
+      <section>
+        <div class="badge">Founder</div>
+        <h2>Solo founder. <span class="gradient">Builder velocity + audit mindset.</span></h2>
+        <div class="grid-2" style="margin-top: 30px; gap: 30px;">
+          <div>
+            <h3 style="font-size: 1.2em;">snidova</h3>
+            <p style="font-size: 0.9em;">Web3 builder & smart contract auditor based in Indonesia. Pseudonymous in the security community, KYC-ready for institutional use.</p>
+            <ul style="font-size: 0.88em; margin-top: 12px;">
+              <li>4+ years building production Web3 systems</li>
+              <li>Active on Code4rena, Sherlock, Cantina audit contests</li>
+              <li>Bug bounty hunter — Immunefi, HackerOne</li>
+              <li>Pioneer / Optimism ecosystem contributor</li>
+              <li>Solo-shipped this MVP end-to-end in 14 days</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h3 style="font-size: 1em;">Why this founder for this category</h3>
+            <p style="font-size: 0.85em; margin-bottom: 10px;"><strong>Audit instinct = insurance instinct.</strong> Every audit asks "how does this break?" That's exactly the question parametric insurance design has to answer.</p>
+            <p style="font-size: 0.85em;"><strong>Looking for:</strong> technical co-founder (cryptography / oracle infra) + insurance domain advisor. Open to YZi Labs network intros.</p>
+          </div>
+        </div>
+        <div class="footer-bar"><span>Team</span><span>9 / 11</span></div>
+      </section>
+
+      <!-- 10. Roadmap & Ask -->
+      <section>
+        <div class="badge">Roadmap & ask</div>
+        <h2>10 weeks to mainnet beta with <span class="gradient">YZi Labs.</span></h2>
+        <div class="timeline" style="margin-top: 30px;">
+          <div class="timeline-item">
+            <span class="num">W1-2</span>
+            <h4>Smart contracts</h4>
+            <p>Solidity + Anchor, parametric trigger primitives.</p>
+          </div>
+          <div class="timeline-item">
+            <span class="num">W3-5</span>
+            <h4>Oracle + testnet</h4>
+            <p>Pyth + Chainlink + Switchboard. Multi-feed redundancy. Testnet live.</p>
+          </div>
+          <div class="timeline-item">
+            <span class="num">W6-8</span>
+            <h4>10 pilot users</h4>
+            <p>Real agent operators. First paid coverage written.</p>
+          </div>
+          <div class="timeline-item">
+            <span class="num">W9-10</span>
+            <h4>Audit + mainnet</h4>
+            <p>External audit, capped beta launch, $100K coverage live.</p>
+          </div>
+        </div>
+        <div class="card" style="margin-top: 26px; background: linear-gradient(135deg, rgba(124,58,237,0.12), rgba(236,72,153,0.12));">
+          <div class="grid-4">
+            <div>
+              <div class="stat-label">Engineering</div>
+              <div class="stat-num gradient" style="font-size: 1.6em;">$200K</div>
+              <p style="font-size: 0.7em; color: var(--muted);">Audit, oracle infra, dev</p>
+            </div>
+            <div>
+              <div class="stat-label">Risk capital</div>
+              <div class="stat-num gradient" style="font-size: 1.6em;">$150K</div>
+              <p style="font-size: 0.7em; color: var(--muted);">Pool seed + reinsurance</p>
+            </div>
+            <div>
+              <div class="stat-label">BD / GTM</div>
+              <div class="stat-num gradient" style="font-size: 1.6em;">$100K</div>
+              <p style="font-size: 0.7em; color: var(--muted);">Protocol integrations, events</p>
+            </div>
+            <div>
+              <div class="stat-label">Operations</div>
+              <div class="stat-num gradient" style="font-size: 1.6em;">$50K</div>
+              <p style="font-size: 0.7em; color: var(--muted);">Legal, residency, buffer</p>
+            </div>
+          </div>
+        </div>
+        <p style="margin-top: 18px; font-size: 0.95em;"><strong>Ask:</strong> $150K SAFE @ 5% + $350K uncapped SAFE = <strong class="gradient">$500K total.</strong></p>
+        <div class="footer-bar"><span>Ask</span><span>10 / 11</span></div>
+      </section>
+
+      <!-- 11. Close -->
+      <section>
+        <div style="height: 100%; display: flex; flex-direction: column; justify-content: center;">
+          <div class="badge">Let's build this</div>
+          <h1 style="font-size: 3em;">Insurance is the <span class="gradient">missing primitive</span> for the agent economy.</h1>
+          <p style="margin-top: 20px; font-size: 1.15em; color: var(--text-soft);">YZi Labs makes us shipping in 10 weeks instead of 10 months.</p>
+          <div class="grid-3" style="margin-top: 40px;">
+            <div class="card">
+              <div class="stat-label">Try the live demo</div>
+              <p style="font-weight: 800; color: var(--purple); font-size: 0.95em; margin-top: 6px;">agentinsurance.vercel.app</p>
+            </div>
+            <div class="card">
+              <div class="stat-label">Read the code</div>
+              <p style="font-weight: 800; color: var(--purple); font-size: 0.95em; margin-top: 6px;">github.com/snidova1/agentinsurance</p>
+            </div>
+            <div class="card">
+              <div class="stat-label">Reach out</div>
+              <p style="font-weight: 800; color: var(--purple); font-size: 0.95em; margin-top: 6px;">@snidova</p>
+            </div>
+          </div>
+        </div>
+        <div class="footer-bar"><span>Thank you · YZi Labs EASY S4</span><span>11 / 11</span></div>
+      </section>
+
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      width: 1280,
+      height: 720,
+      margin: 0,
+      controls: true,
+      progress: true,
+      hash: true,
+      transition: 'fade',
+      backgroundTransition: 'none',
+      pdfSeparateFragments: false,
+      pdfMaxPagesPerSlide: 1
+    });
+  </script>
+</body>
+</html>
