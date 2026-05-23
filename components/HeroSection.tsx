@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { QuoteCalculator } from './QuoteCalculator';
+import { ShieldIcon, ArrowRightIcon, PlayIcon, SparkleIcon, CoinIcon, BotIcon, SmileIcon } from './Icons';
 
 // Hero mascot - bigger, friendlier
 const HeroMascot = () => (
@@ -62,7 +63,7 @@ const HeroMascot = () => (
       </motion.g>
       <ellipse cx="20" cy="75" rx="8" ry="14" fill="url(#heroBody)" />
       
-      {/* Heart */}
+      {/* Heart on body */}
       <motion.g
         animate={{ scale: [1, 1.2, 1] }}
         transition={{ duration: 1.5, repeat: Infinity }}
@@ -114,11 +115,11 @@ export function HeroSection() {
               transition={{ delay: 0.2 }}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/70 border-2 border-purple-200 backdrop-blur-sm mb-6 shadow-md"
             >
-              <span className="text-lg">✨</span>
+              <SparkleIcon className="text-yellow-500" size={16} />
               <span className="text-sm font-bold text-purple-700">
                 First AI Agent Insurance Protocol
               </span>
-              <span className="text-lg">✨</span>
+              <SparkleIcon className="text-yellow-500" size={16} />
             </motion.div>
 
             {/* Main heading */}
@@ -129,14 +130,7 @@ export function HeroSection() {
               className="display-md md:display-lg text-purple-900 mb-6 max-w-4xl mx-auto"
             >
               Insurance That{' '}
-              <span className="gradient-text">Loves Your AI</span>{' '}
-              <motion.span
-                animate={{ rotate: [0, 15, -15, 0] }}
-                transition={{ duration: 1, repeat: Infinity, repeatDelay: 2 }}
-                className="inline-block"
-              >
-                💖
-              </motion.span>
+              <span className="gradient-text">Loves Your AI</span>
             </motion.h1>
 
             {/* Subtitle */}
@@ -146,7 +140,7 @@ export function HeroSection() {
               transition={{ delay: 0.4 }}
               className="body-lg text-purple-700/70 mb-10 max-w-2xl mx-auto font-medium"
             >
-              When your AI agents mess up, we've got their back. Smart contract magic = instant payouts in seconds, not weeks. 🚀
+              When your AI agents mess up, we've got their back. Smart contract magic = instant payouts in seconds, not weeks.
             </motion.p>
 
             {/* CTA Buttons */}
@@ -162,9 +156,9 @@ export function HeroSection() {
                 onClick={() => setQuoteOpen(true)}
                 className="btn-primary"
               >
-                <span>🛡️</span>
+                <ShieldIcon size={18} />
                 Protect My Bot
-                <span>→</span>
+                <ArrowRightIcon size={18} />
               </motion.button>
 
               <motion.a
@@ -173,7 +167,7 @@ export function HeroSection() {
                 href="/demo"
                 className="btn-secondary"
               >
-                <span>▶️</span>
+                <PlayIcon size={16} />
                 See It Work
               </motion.a>
             </motion.div>
@@ -186,9 +180,9 @@ export function HeroSection() {
               className="grid grid-cols-3 gap-4 max-w-3xl mx-auto"
             >
               {[
-                { value: '$2.5M', label: 'Coverage Issued', emoji: '💰' },
-                { value: '150+', label: 'Bots Protected', emoji: '🤖' },
-                { value: '99.2%', label: 'Happy Customers', emoji: '😊' },
+                { value: '$2.5M', label: 'Coverage Issued', Icon: CoinIcon, color: 'from-yellow-300 to-orange-300', iconColor: 'text-orange-700' },
+                { value: '150+', label: 'Bots Protected', Icon: BotIcon, color: 'from-purple-300 to-pink-300', iconColor: 'text-purple-700' },
+                { value: '99.2%', label: 'Happy Customers', Icon: SmileIcon, color: 'from-pink-300 to-rose-300', iconColor: 'text-pink-700' },
               ].map((stat, i) => (
                 <motion.div
                   key={i}
@@ -198,7 +192,9 @@ export function HeroSection() {
                   whileHover={{ y: -4 }}
                   className="card-cute p-4"
                 >
-                  <div className="text-2xl mb-1">{stat.emoji}</div>
+                  <div className={`w-10 h-10 mx-auto rounded-2xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-2 shadow-sm`}>
+                    <stat.Icon className={stat.iconColor} size={20} />
+                  </div>
                   <div className="text-2xl md:text-3xl font-extrabold gradient-text mb-1">
                     {stat.value}
                   </div>
@@ -210,22 +206,6 @@ export function HeroSection() {
             </motion.div>
           </motion.div>
         </div>
-
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="text-2xl"
-          >
-            👇
-          </motion.div>
-        </motion.div>
       </section>
 
       <QuoteCalculator isOpen={quoteOpen} onClose={() => setQuoteOpen(false)} />

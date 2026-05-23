@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
+import { RocketIcon, HeartIcon, GiftIcon, HandWaveIcon, ArrowRightIcon, PlayIcon, GitHubIcon, CheckIcon, StarIcon, SparkleIcon } from './Icons';
 
 export function CTASection() {
   const [email, setEmail] = useState('');
@@ -12,7 +13,7 @@ export function CTASection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !email.includes('@')) {
-      setError('Oops! That email looks funny 🤔');
+      setError('Oops! That email looks funny');
       return;
     }
     setError('');
@@ -25,7 +26,7 @@ export function CTASection() {
       setSubmitted(true);
       setLoading(false);
     } catch (err) {
-      setError('Something broke 😅 Try again?');
+      setError('Something broke. Try again?');
       setLoading(false);
     }
   };
@@ -45,16 +46,16 @@ export function CTASection() {
           <motion.div
             animate={{ y: [0, -20, 0], rotate: [0, 360] }}
             transition={{ duration: 10, repeat: Infinity }}
-            className="absolute top-8 right-8 text-5xl opacity-30"
+            className="absolute top-8 right-8 opacity-30"
           >
-            ✨
+            <SparkleIcon className="text-yellow-500" size={48} />
           </motion.div>
           <motion.div
             animate={{ y: [0, 15, 0], rotate: [0, -360] }}
             transition={{ duration: 12, repeat: Infinity }}
-            className="absolute bottom-8 left-8 text-5xl opacity-30"
+            className="absolute bottom-8 left-8 opacity-30"
           >
-            🌟
+            <StarIcon className="text-pink-400" size={48} />
           </motion.div>
 
           <div className="relative z-10">
@@ -66,17 +67,19 @@ export function CTASection() {
               transition={{ type: 'spring', delay: 0.1 }}
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg mb-6"
             >
-              <span>🚀</span>
+              <RocketIcon size={16} />
               <span className="text-sm font-bold">Launching Q3 2026</span>
             </motion.div>
 
-            {/* Mascot */}
+            {/* Heart icon */}
             <motion.div
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 3, repeat: Infinity }}
-              className="text-7xl mb-4"
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+              className="flex justify-center mb-4"
             >
-              💖
+              <div className="w-20 h-20 rounded-3xl bg-gradient-to-br from-pink-400 to-rose-400 flex items-center justify-center shadow-lg">
+                <HeartIcon className="text-white" size={40} />
+              </div>
             </motion.div>
 
             {/* Heading */}
@@ -84,7 +87,7 @@ export function CTASection() {
               Ready to Protect Your Bot?
             </h2>
             <p className="body-lg text-purple-700/70 mb-10 max-w-xl mx-auto font-medium">
-              Hop on the waitlist! First 100 friends get 50% off for 6 months 🎁
+              Hop on the waitlist. First 100 friends get 50% off for 6 months.
             </p>
 
             {/* Form */}
@@ -117,14 +120,11 @@ export function CTASection() {
                     className="btn-primary justify-center disabled:opacity-50"
                   >
                     {loading ? (
-                      <>
-                        <span>⏳</span>
-                        <span>Joining...</span>
-                      </>
+                      <span>Joining...</span>
                     ) : (
                       <>
                         <span>Join Waitlist</span>
-                        <span>🎉</span>
+                        <ArrowRightIcon size={16} />
                       </>
                     )}
                   </motion.button>
@@ -147,13 +147,15 @@ export function CTASection() {
                 className="max-w-lg mx-auto mb-8 bg-gradient-to-br from-green-100 to-blue-100 rounded-3xl p-8 border-2 border-green-300"
               >
                 <motion.div
-                  animate={{ rotate: [0, 360] }}
+                  animate={{ scale: [1, 1.2, 1] }}
                   transition={{ duration: 1 }}
-                  className="text-6xl mb-3"
+                  className="flex justify-center mb-3"
                 >
-                  🎉
+                  <div className="w-16 h-16 rounded-3xl bg-gradient-to-br from-green-400 to-blue-400 flex items-center justify-center shadow-lg">
+                    <CheckIcon className="text-white" size={32} />
+                  </div>
                 </motion.div>
-                <h3 className="heading-md text-purple-900 mb-2">You're in! Yay! 💖</h3>
+                <h3 className="heading-md text-purple-900 mb-2">You're in!</h3>
                 <p className="text-purple-700/70 font-medium">
                   We saved your spot at <span className="font-bold text-purple-900">{email}</span>
                 </p>
@@ -169,15 +171,15 @@ export function CTASection() {
               className="flex flex-wrap justify-center items-center gap-6 text-sm font-bold text-purple-700/70"
             >
               <div className="flex items-center gap-2">
-                <span className="text-lg">👋</span>
+                <HandWaveIcon className="text-purple-500" size={16} />
                 <span>500+ on waitlist</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-lg">💳</span>
+                <CheckIcon className="text-green-600" size={16} />
                 <span>No credit card</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-lg">🎁</span>
+                <GiftIcon className="text-pink-500" size={16} />
                 <span>Early access perks</span>
               </div>
             </motion.div>
@@ -195,7 +197,7 @@ export function CTASection() {
                 href="/demo"
                 className="btn-secondary justify-center"
               >
-                <span>▶️</span>
+                <PlayIcon size={14} />
                 Try Demo
               </motion.a>
               <motion.a
@@ -205,7 +207,7 @@ export function CTASection() {
                 rel="noopener noreferrer"
                 className="btn-secondary justify-center"
               >
-                <span>⭐</span>
+                <GitHubIcon size={16} />
                 Star on GitHub
               </motion.a>
             </motion.div>
@@ -222,7 +224,7 @@ export function CTASection() {
         >
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-2 text-purple-900">
-              <span className="text-2xl">💜</span>
+              <HeartIcon className="text-pink-500" size={24} />
               <span className="font-extrabold text-lg gradient-text">AgentInsurance</span>
             </div>
 
@@ -234,7 +236,7 @@ export function CTASection() {
             </div>
 
             <div className="text-sm font-bold text-purple-700/50">
-              Made with 💖 in 2026
+              Made with care in 2026
             </div>
           </div>
         </motion.div>

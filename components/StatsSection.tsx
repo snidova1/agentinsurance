@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { CoinIcon, BotIcon, SmileIcon } from './Icons';
 
 export function StatsSection() {
   const [counts, setCounts] = useState({ coverage: 0, agents: 0, accuracy: 0 });
@@ -18,6 +19,12 @@ export function StatsSection() {
     return () => clearInterval(interval);
   }, []);
 
+  const stats = [
+    { label: 'Coverage Issued', value: counts.coverage, suffix: '$', Icon: CoinIcon, color: 'from-yellow-300 to-orange-300', iconColor: 'text-orange-700' },
+    { label: 'Bots Protected', value: counts.agents, suffix: '+', Icon: BotIcon, color: 'from-purple-300 to-pink-300', iconColor: 'text-purple-700' },
+    { label: 'Happy Customers', value: counts.accuracy, suffix: '%', Icon: SmileIcon, color: 'from-pink-300 to-rose-300', iconColor: 'text-pink-700' },
+  ];
+
   return (
     <section className="relative py-32 px-6 overflow-hidden">
       <div className="relative z-10 max-w-6xl mx-auto">
@@ -28,27 +35,16 @@ export function StatsSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <motion.div
-            animate={{ scale: [1, 1.2, 1] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="inline-block mb-4 text-6xl"
-          >
-            💜
-          </motion.div>
           <h2 className="display-sm md:display-md gradient-text mb-4">
             Builders Love Us
           </h2>
           <p className="body-lg text-purple-700/70 font-medium">
-            Real bots, real coverage, real happiness 🌈
+            Real bots, real coverage, real results.
           </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {[
-            { label: 'Coverage Issued', value: counts.coverage, suffix: '$', emoji: '💰', color: 'from-yellow-300 to-orange-300' },
-            { label: 'Bots Protected', value: counts.agents, suffix: '+', emoji: '🤖', color: 'from-purple-300 to-pink-300' },
-            { label: 'Happy Customers', value: counts.accuracy, suffix: '%', emoji: '😊', color: 'from-pink-300 to-rose-300' },
-          ].map((stat, i) => (
+          {stats.map((stat, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 30, scale: 0.9 }}
@@ -61,9 +57,9 @@ export function StatsSection() {
               <motion.div
                 animate={{ y: [0, -8, 0], rotate: [0, 10, -10, 0] }}
                 transition={{ duration: 3, repeat: Infinity, delay: i * 0.3 }}
-                className={`w-20 h-20 mx-auto rounded-3xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-4 text-5xl shadow-md`}
+                className={`w-20 h-20 mx-auto rounded-3xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-4 shadow-md`}
               >
-                {stat.emoji}
+                <stat.Icon className={stat.iconColor} size={40} />
               </motion.div>
               <div className="display-md gradient-text mb-1">
                 {stat.suffix === '$' ? '$' : ''}
