@@ -9,110 +9,88 @@ export function HeroSection() {
 
   return (
     <>
-      <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Animated background gradient */}
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 via-black to-blue-900/20" />
-        
-        {/* Animated grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f12_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f12_1px,transparent_1px)] bg-[size:64px_64px]" />
-        
-        {/* Interactive particles */}
+      <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-6">
+        {/* Subtle gradient orbs */}
         <div className="absolute inset-0 overflow-hidden">
-          {[...Array(30)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-purple-500/40 rounded-full"
-              style={{
-                left: `${Math.random() * 100}%`,
-                top: `${Math.random() * 100}%`,
-              }}
-              animate={{
-                y: [0, -50, 0],
-                opacity: [0.3, 0.8, 0.3],
-                scale: [1, 1.5, 1],
-              }}
-              transition={{
-                duration: 3 + Math.random() * 3,
-                repeat: Infinity,
-                delay: Math.random() * 2,
-              }}
-            />
-          ))}
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#5e6ad2] opacity-[0.03] blur-[120px] rounded-full" />
+          <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#7170ff] opacity-[0.04] blur-[140px] rounded-full" />
         </div>
+
+        {/* Grid pattern */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
         
         {/* Content */}
-        <div className="relative z-10 max-w-7xl mx-auto px-6 text-center">
+        <div className="relative z-10 max-w-5xl mx-auto text-center">
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
             {/* Badge */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
+              initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
-              whileHover={{ scale: 1.05 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-sm mb-8 cursor-pointer"
+              transition={{ delay: 0.1, duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.02] border border-white/[0.08] backdrop-blur-linear mb-8"
             >
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-sm text-gray-300">First AI Agent Insurance Protocol</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse" />
+              <span className="text-[13px] font-medium text-[#d0d6e0] tracking-[-0.13px]">
+                First AI Agent Insurance Protocol
+              </span>
             </motion.div>
 
-            {/* Main heading with animated gradient */}
+            {/* Main heading */}
             <motion.h1 
-              className="text-6xl md:text-8xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-200 to-blue-200"
-              animate={{
-                backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "linear"
-              }}
-              style={{ backgroundSize: '200% 200%' }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.6 }}
+              className="display-md text-[#f7f8f8] mb-6 max-w-4xl mx-auto"
+              style={{ fontFeatureSettings: '"cv01", "ss03"' }}
             >
-              AgentInsurance
+              Parametric Insurance for{' '}
+              <span className="brand-gradient">AI Agents</span>
             </motion.h1>
 
-            {/* Tagline */}
-            <p className="text-2xl md:text-3xl text-gray-400 mb-4 font-light">
-              Parametric Insurance for AI Agent Failures
-            </p>
+            {/* Subtitle */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.6 }}
+              className="body-lg text-[#8a8f98] mb-12 max-w-2xl mx-auto"
+            >
+              The first decentralized insurance protocol protecting businesses from autonomous AI agent failures. 
+              Instant payouts powered by smart contracts.
+            </motion.p>
 
-            {/* Description */}
-            <p className="text-lg text-gray-500 max-w-2xl mx-auto mb-12">
-              The first decentralized insurance protocol protecting businesses from autonomous AI agent errors, 
-              powered by smart contracts and real-time verification.
-            </p>
-
-            {/* CTA Buttons - NOW FUNCTIONAL */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={() => setQuoteOpen(true)}
-                className="px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg font-semibold text-lg shadow-lg shadow-purple-500/50 hover:shadow-purple-500/70 transition-shadow"
-              >
-                Get Coverage →
-              </motion.button>
-              
-              <motion.a
-                href="/demo"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-8 py-4 bg-white/5 border border-white/10 rounded-lg font-semibold text-lg backdrop-blur-sm hover:bg-white/10 transition-colors"
-              >
-                ▶ View Live Demo
-              </motion.a>
-            </div>
-
-            {/* Stats with hover */}
+            {/* CTA Buttons */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-              className="mt-20 grid grid-cols-3 gap-8 max-w-3xl mx-auto"
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="flex flex-col sm:flex-row gap-3 justify-center items-center mb-20"
+            >
+              <button
+                onClick={() => setQuoteOpen(true)}
+                className="group relative px-6 py-3 bg-[#5e6ad2] hover:bg-[#7170ff] text-white rounded-lg font-medium text-[15px] transition-all duration-200 glow-brand"
+              >
+                <span className="relative z-10">Get Coverage</span>
+                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-[#7170ff] to-[#5e6ad2] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+              </button>
+              
+              <a
+                href="/demo"
+                className="px-6 py-3 bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.08] text-[#d0d6e0] rounded-lg font-medium text-[15px] transition-all duration-200 backdrop-blur-linear"
+              >
+                View Live Demo
+              </a>
+            </motion.div>
+
+            {/* Stats */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+              className="grid grid-cols-3 gap-8 max-w-3xl mx-auto"
             >
               {[
                 { value: '$2.5M', label: 'Coverage Issued' },
@@ -121,39 +99,39 @@ export function HeroSection() {
               ].map((stat, i) => (
                 <motion.div
                   key={i}
-                  whileHover={{ y: -5, scale: 1.05 }}
-                  className="cursor-pointer"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.6 + i * 0.1, duration: 0.5 }}
+                  whileHover={{ y: -2 }}
+                  className="group cursor-default"
                 >
-                  <div className="text-4xl font-bold text-white mb-2">{stat.value}</div>
-                  <div className="text-sm text-gray-500">{stat.label}</div>
+                  <div className="text-[32px] font-medium text-[#f7f8f8] mb-1 tracking-[-0.704px] group-hover:text-[#7170ff] transition-colors duration-200">
+                    {stat.value}
+                  </div>
+                  <div className="text-[13px] text-[#62666d] tracking-[-0.13px]">
+                    {stat.label}
+                  </div>
                 </motion.div>
               ))}
             </motion.div>
           </motion.div>
         </div>
 
-        {/* Floating orbs */}
+        {/* Scroll indicator */}
         <motion.div
-          animate={{
-            y: [0, -20, 0],
-            x: [0, 10, 0],
-            opacity: [0.3, 0.6, 0.3],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-1/4 left-1/4 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl"
-        />
-        
-        <motion.div
-          animate={{
-            y: [0, 20, 0],
-            x: [0, -10, 0],
-            opacity: [0.3, 0.6, 0.3],
-            scale: [1, 1.3, 1],
-          }}
-          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"
-        />
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1, duration: 0.6 }}
+          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+        >
+          <motion.div
+            animate={{ y: [0, 8, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="w-5 h-8 rounded-full border border-white/[0.08] flex items-start justify-center p-1.5"
+          >
+            <div className="w-1 h-2 bg-white/20 rounded-full" />
+          </motion.div>
+        </motion.div>
       </section>
 
       {/* Quote Calculator Modal */}

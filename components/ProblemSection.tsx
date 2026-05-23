@@ -5,25 +5,28 @@ import { motion } from 'framer-motion';
 export function ProblemSection() {
   const problems = [
     {
-      icon: "⚠️",
-      title: "Agent Errors Cost Millions",
-      description: "Autonomous AI agents make mistakes—wrong trades, bad decisions, data breaches. Who pays?"
+      icon: '⚠️',
+      title: 'Agent Errors Cost Millions',
+      description: 'A single miscalculation or logic error can result in catastrophic financial losses'
     },
     {
-      icon: "🔒",
-      title: "No Liability Framework",
-      description: "Traditional insurance doesn't cover AI agents. Businesses are exposed to unlimited risk."
+      icon: '🔓',
+      title: 'No Liability Framework',
+      description: 'Traditional insurance doesn\'t cover autonomous AI agent failures'
     },
     {
-      icon: "⏱️",
-      title: "Slow Manual Claims",
-      description: "Legacy insurance takes weeks to process claims. AI failures need instant resolution."
+      icon: '⏱️',
+      title: 'Slow Manual Claims',
+      description: 'Traditional claims take weeks. Businesses need instant payouts'
     }
   ];
 
   return (
-    <section className="relative py-32 px-6">
-      <div className="max-w-7xl mx-auto">
+    <section className="relative py-32 px-6 overflow-hidden">
+      {/* Subtle background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#08090a] via-[#0f1011] to-[#08090a]" />
+      
+      <div className="relative z-10 max-w-6xl mx-auto">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -32,50 +35,52 @@ export function ProblemSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-20"
         >
-          <h2 className="text-5xl md:text-6xl font-bold mb-6">
-            The <span className="text-red-500">Problem</span>
+          <h2 className="display-sm text-[#f7f8f8] mb-4" style={{ fontFeatureSettings: '"cv01", "ss03"' }}>
+            The Problem
           </h2>
-          <p className="text-xl text-gray-400 max-w-3xl mx-auto">
+          <p className="body-lg text-[#8a8f98] max-w-2xl mx-auto">
             As AI agents become autonomous, the risk of catastrophic failures grows exponentially. 
             Traditional insurance can't keep up.
           </p>
         </motion.div>
 
-        {/* Problem cards */}
-        <div className="grid md:grid-cols-3 gap-8">
-          {problems.map((problem, index) => (
+        {/* Problem cards grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          {problems.map((problem, i) => (
             <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 40 }}
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.15, duration: 0.6 }}
-              whileHover={{ y: -8, transition: { duration: 0.2 } }}
-              className="relative group"
+              transition={{ delay: i * 0.1, duration: 0.6 }}
+              whileHover={{ y: -4 }}
+              className="group p-6 rounded-lg bg-white/[0.02] border border-white/[0.08] backdrop-blur-linear hover:bg-white/[0.04] hover:border-white/[0.12] transition-all duration-300"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-red-500/10 to-orange-500/10 rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
-              
-              <div className="relative bg-white/5 border border-white/10 rounded-2xl p-8 backdrop-blur-sm hover:bg-white/10 transition-colors">
-                <div className="text-6xl mb-6">{problem.icon}</div>
-                <h3 className="text-2xl font-bold mb-4">{problem.title}</h3>
-                <p className="text-gray-400 leading-relaxed">{problem.description}</p>
-              </div>
+              <div className="text-4xl mb-4">{problem.icon}</div>
+              <h3 className="heading-md text-[#f7f8f8] mb-3">
+                {problem.title}
+              </h3>
+              <p className="body-sm text-[#8a8f98]">
+                {problem.description}
+              </p>
             </motion.div>
           ))}
         </div>
 
-        {/* Stat highlight */}
+        {/* Market stat */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.5, duration: 0.6 }}
-          className="mt-20 text-center"
+          transition={{ delay: 0.3, duration: 0.6 }}
+          className="text-center p-8 rounded-lg bg-gradient-to-r from-[#5e6ad2]/10 to-[#7170ff]/10 border border-white/[0.08]"
         >
-          <div className="inline-block bg-red-500/10 border border-red-500/20 rounded-2xl px-12 py-8">
-            <div className="text-5xl font-bold text-red-400 mb-2">$4.2B</div>
-            <div className="text-gray-400">Lost to AI agent failures in 2025</div>
+          <div className="text-5xl font-medium text-[#f7f8f8] mb-2 tracking-[-1.056px]" style={{ fontFeatureSettings: '"cv01", "ss03"' }}>
+            $4.2B
           </div>
+          <p className="text-[#8a8f98]">
+            Lost to AI agent failures in 2025
+          </p>
         </motion.div>
       </div>
     </section>
