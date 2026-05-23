@@ -1,8 +1,42 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useState } from 'react';
 
 export function CTASection() {
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!email || !email.includes('@')) {
+      setError('Please enter a valid email');
+      return;
+    }
+
+    setError('');
+    setLoading(true);
+
+    // Save to localStorage (simulating API)
+    try {
+      const waitlist = JSON.parse(localStorage.getItem('agentinsurance_waitlist') || '[]');
+      waitlist.push({ email, timestamp: new Date().toISOString() });
+      localStorage.setItem('agentinsurance_waitlist', JSON.stringify(waitlist));
+
+      // Simulate API delay
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      setSubmitted(true);
+      setLoading(false);
+    } catch (err) {
+      setError('Something went wrong. Please try again.');
+      setLoading(false);
+    }
+  };
+
   return (
     <section className="relative py-32 px-6 overflow-hidden">
       {/* Background effects */}
@@ -13,11 +47,7 @@ export function CTASection() {
           scale: [1, 1.2, 1],
           opacity: [0.3, 0.5, 0.3],
         }}
-        transition={{
-          duration: 8,
-          repeat: Infinity,
-          ease: "easeInOut",
-        }}
+        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
         className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl"
       />
       
@@ -26,12 +56,7 @@ export function CTASection() {
           scale: [1, 1.3, 1],
           opacity: [0.3, 0.5, 0.3],
         }}
-        transition={{
-          duration: 10,
-          repeat: Infinity,
-          ease: "easeInOut",
-          delay: 2,
-        }}
+        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 2 }}
         className="absolute bottom-0 right-1/4 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl"
       />
 
@@ -63,27 +88,72 @@ export function CTASection() {
             Join the waitlist for early access. First 100 users get 50% off premiums for 6 months.
           </p>
 
-          {/* Email signup */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-2xl mx-auto mb-12"
-          >
-            <input
-              type="email"
-              placeholder="your@email.com"
-              className="w-full sm:flex-1 px-6 py-4 bg-white/5 border border-white/10 rounded-lg backdrop-blur-sm focus:outline-none focus:border-purple-500 transition-colors text-white placeholder-gray-500"
-            />
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg font-semibold shadow-lg shadow-purple-500/50 hover:shadow-purple-500/70 transition-shadow whitespace-nowrap"
+          {/* Email signup - FUNCTIONAL */}
+          {!submitted ? (
+            <motion.form
+              onSubmit={handleSubmit}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="flex flex-col gap-3 justify-center items-center max-w-2xl mx-auto mb-12"
             >
-              Join Waitlist
-            </motion.button>
-          </motion.div>
+              <div className="flex flex-col sm:flex-row gap-4 w-full">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                    setError('');
+                  }}
+                  placeholder="your@email.com"
+                  disabled={loading}
+                  className="w-full sm:flex-1 px-6 py-4 bg-white/5 border border-white/10 rounded-lg backdrop-blur-sm focus:outline-none focus:border-purple-500 transition-colors text-white placeholder-gray-500 disabled:opacity-50"
+                />
+                <motion.button
+                  type="submit"
+                  disabled={loading}
+                  whileHover={{ scale: loading ? 1 : 1.05 }}
+                  whileTap={{ scale: loading ? 1 : 0.95 }}
+                  className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-purple-600 to-blue-600 rounded-lg font-semibold shadow-lg shadow-purple-500/50 hover:shadow-purple-500/70 transition-shadow whitespace-nowrap disabled:opacity-50"
+                >
+                  {loading ? '⏳ Joining...' : 'Join Waitlist →'}
+                </motion.button>
+              </div>
+              {error && (
+                <motion.p
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-red-400 text-sm"
+                >
+                  {error}
+                </motion.p>
+              )}
+            </motion.form>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ type: "spring", stiffness: 200 }}
+              className="max-w-2xl mx-auto mb-12 bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-500/50 rounded-2xl p-8"
+            >
+              <motion.div
+                initial={{ scale: 0, rotate: -180 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{ type: "spring", stiffness: 200, delay: 0.2 }}
+                className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-green-400 to-emerald-500 flex items-center justify-center text-3xl"
+              >
+                ✓
+              </motion.div>
+              <h3 className="text-2xl font-bold mb-2">You're on the waitlist!</h3>
+              <p className="text-gray-300 mb-1">
+                We've added <span className="font-semibold text-white">{email}</span>
+              </p>
+              <p className="text-sm text-gray-400">
+                You'll be among the first to get access. We'll send updates soon.
+              </p>
+            </motion.div>
+          )}
 
           {/* Social proof */}
           <motion.div
@@ -94,7 +164,7 @@ export function CTASection() {
             className="flex flex-wrap justify-center items-center gap-8 text-sm text-gray-500"
           >
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-green-500" />
+              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
               <span>500+ on waitlist</span>
             </div>
             <div className="flex items-center gap-2">
@@ -107,7 +177,7 @@ export function CTASection() {
             </div>
           </motion.div>
 
-          {/* Additional CTAs */}
+          {/* Additional CTAs - FUNCTIONAL */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -116,22 +186,26 @@ export function CTASection() {
             className="mt-16 flex flex-col sm:flex-row gap-6 justify-center"
           >
             <a
-              href="#"
+              href="/demo"
               className="px-6 py-3 bg-white/5 border border-white/10 rounded-lg backdrop-blur-sm hover:bg-white/10 transition-colors"
             >
-              📄 Read Whitepaper
+              ▶ Try Demo
             </a>
             <a
-              href="#"
+              href="https://github.com/snidova1/agentinsurance"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-6 py-3 bg-white/5 border border-white/10 rounded-lg backdrop-blur-sm hover:bg-white/10 transition-colors"
             >
-              💬 Join Discord
+              📂 View Source
             </a>
             <a
-              href="#"
+              href="https://x.com/yzilabs"
+              target="_blank"
+              rel="noopener noreferrer"
               className="px-6 py-3 bg-white/5 border border-white/10 rounded-lg backdrop-blur-sm hover:bg-white/10 transition-colors"
             >
-              🐦 Follow on X
+              🐦 Follow Updates
             </a>
           </motion.div>
         </motion.div>
@@ -153,14 +227,14 @@ export function CTASection() {
             </div>
             
             <div className="flex gap-8">
-              <a href="#" className="hover:text-white transition-colors">About</a>
+              <a href="/demo" className="hover:text-white transition-colors">Demo</a>
+              <a href="https://github.com/snidova1/agentinsurance" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">GitHub</a>
               <a href="#" className="hover:text-white transition-colors">Docs</a>
               <a href="#" className="hover:text-white transition-colors">Blog</a>
-              <a href="#" className="hover:text-white transition-colors">Careers</a>
             </div>
             
             <div>
-              © 2026 AgentInsurance. All rights reserved.
+              © 2026 AgentInsurance
             </div>
           </div>
         </div>
