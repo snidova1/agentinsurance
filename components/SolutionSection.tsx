@@ -1,36 +1,37 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { BotIcon, ZapIcon, ChartIcon, TargetIcon, LinkIcon, CoinIcon } from './Icons';
 
 export function SolutionSection() {
   const features = [
     {
-      icon: '🤖',
+      Icon: BotIcon,
       title: 'Agent-Native Coverage',
       description: 'Insurance designed specifically for autonomous AI agents'
     },
     {
-      icon: '⚡',
+      Icon: ZapIcon,
       title: 'Instant Payouts',
       description: 'Smart contracts verify and pay claims in under 60 seconds'
     },
     {
-      icon: '📊',
+      Icon: ChartIcon,
       title: 'Parametric Triggers',
       description: 'Objective, on-chain conditions trigger automatic payouts'
     },
     {
-      icon: '🎯',
+      Icon: TargetIcon,
       title: 'Risk Scoring',
       description: 'AI-powered risk assessment for accurate premium pricing'
     },
     {
-      icon: '🔗',
+      Icon: LinkIcon,
       title: 'Cross-Chain',
       description: 'Coverage works across Solana, Ethereum, and other chains'
     },
     {
-      icon: '💵',
+      Icon: CoinIcon,
       title: 'Stablecoin Native',
       description: 'Premiums and payouts in USDC for stability'
     }
@@ -38,11 +39,7 @@ export function SolutionSection() {
 
   return (
     <section className="relative py-32 px-6 overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-[#08090a] via-[#0f1011] to-[#08090a]" />
-      
       <div className="relative z-10 max-w-6xl mx-auto">
-        {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -59,26 +56,25 @@ export function SolutionSection() {
           </p>
         </motion.div>
 
-        {/* Features grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {features.map((feature, i) => (
+          {features.map(({ Icon, title, description }, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.6 }}
-              whileHover={{ y: -4, borderColor: 'rgba(255,255,255,0.12)' }}
-              className="group p-6 rounded-lg bg-white/[0.02] border border-white/[0.08] backdrop-blur-linear hover:bg-white/[0.04] transition-all duration-300"
+              whileHover={{ y: -4 }}
+              className="group p-6 rounded-lg bg-white/[0.02] border border-white/[0.08] backdrop-blur-linear hover:bg-white/[0.04] hover:border-white/[0.12] transition-all duration-300"
             >
-              <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                {feature.icon}
+              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-[#5e6ad2]/20 to-[#7170ff]/10 border border-white/[0.08] flex items-center justify-center mb-4 text-[#7170ff] group-hover:scale-110 transition-transform">
+                <Icon size={22} />
               </div>
               <h3 className="heading-md text-[#f7f8f8] mb-2">
-                {feature.title}
+                {title}
               </h3>
               <p className="body-sm text-[#8a8f98]">
-                {feature.description}
+                {description}
               </p>
             </motion.div>
           ))}

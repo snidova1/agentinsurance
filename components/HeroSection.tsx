@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { QuoteCalculator } from './QuoteCalculator';
+import { ShieldIcon, ArrowRightIcon, PlayIcon } from './Icons';
 
 export function HeroSection() {
   const [quoteOpen, setQuoteOpen] = useState(false);
@@ -10,14 +11,8 @@ export function HeroSection() {
   return (
     <>
       <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-6">
-        {/* Subtle gradient orbs */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#5e6ad2] opacity-[0.03] blur-[120px] rounded-full" />
-          <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-[#7170ff] opacity-[0.04] blur-[140px] rounded-full" />
-        </div>
-
-        {/* Grid pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
+        {/* Grid pattern overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_50%,black,transparent)]" />
         
         {/* Content */}
         <div className="relative z-10 max-w-5xl mx-auto text-center">
@@ -33,7 +28,10 @@ export function HeroSection() {
               transition={{ delay: 0.1, duration: 0.5 }}
               className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/[0.02] border border-white/[0.08] backdrop-blur-linear mb-8"
             >
-              <span className="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse" />
+              <span className="relative flex h-1.5 w-1.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10b981] opacity-75" />
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#10b981]" />
+              </span>
               <span className="text-[13px] font-medium text-[#d0d6e0] tracking-[-0.13px]">
                 First AI Agent Insurance Protocol
               </span>
@@ -71,17 +69,19 @@ export function HeroSection() {
             >
               <button
                 onClick={() => setQuoteOpen(true)}
-                className="group relative px-6 py-3 bg-[#5e6ad2] hover:bg-[#7170ff] text-white rounded-lg font-medium text-[15px] transition-all duration-200 glow-brand"
+                className="group relative px-6 py-3 bg-[#5e6ad2] hover:bg-[#7170ff] text-white rounded-lg font-medium text-[15px] transition-all duration-200 glow-brand inline-flex items-center gap-2"
               >
-                <span className="relative z-10">Get Coverage</span>
-                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-[#7170ff] to-[#5e6ad2] opacity-0 group-hover:opacity-100 transition-opacity duration-200" />
+                <ShieldIcon size={16} />
+                <span>Get Coverage</span>
+                <ArrowRightIcon size={16} className="group-hover:translate-x-0.5 transition-transform" />
               </button>
               
               <a
                 href="/demo"
-                className="px-6 py-3 bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.08] text-[#d0d6e0] rounded-lg font-medium text-[15px] transition-all duration-200 backdrop-blur-linear"
+                className="group px-6 py-3 bg-white/[0.02] hover:bg-white/[0.05] border border-white/[0.08] hover:border-white/[0.12] text-[#d0d6e0] rounded-lg font-medium text-[15px] transition-all duration-200 backdrop-blur-linear inline-flex items-center gap-2"
               >
-                View Live Demo
+                <PlayIcon size={14} />
+                <span>View Live Demo</span>
               </a>
             </motion.div>
 
