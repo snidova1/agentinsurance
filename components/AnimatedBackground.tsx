@@ -19,92 +19,106 @@ export function AnimatedBackground() {
     canvas.width = width;
     canvas.height = height;
 
-    // Particles
-    const particles: Array<{
+    // Floating bubbles/clouds
+    const bubbles: Array<{
       x: number;
       y: number;
       vx: number;
       vy: number;
       radius: number;
+      color: string;
       opacity: number;
     }> = [];
 
-    const particleCount = 80;
-    for (let i = 0; i < particleCount; i++) {
-      particles.push({
+    const colors = [
+      'rgba(167, 139, 250, 0.4)', // purple-light
+      'rgba(249, 168, 212, 0.4)', // pink-light
+      'rgba(251, 191, 36, 0.3)',  // yellow
+      'rgba(96, 165, 250, 0.3)',  // blue
+      'rgba(52, 211, 153, 0.3)',  // green
+    ];
+
+    for (let i = 0; i < 25; i++) {
+      bubbles.push({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
-        radius: Math.random() * 1.5 + 0.5,
-        opacity: Math.random() * 0.5 + 0.2,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
+        radius: Math.random() * 60 + 40,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        opacity: Math.random() * 0.4 + 0.3,
       });
     }
 
-    // Aurora blobs
+    // Sparkle stars
+    const sparkles: Array<{
+      x: number;
+      y: number;
+      size: number;
+      phase: number;
+      speed: number;
+    }> = [];
+
+    for (let i = 0; i < 40; i++) {
+      sparkles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        size: Math.random() * 3 + 1,
+        phase: Math.random() * Math.PI * 2,
+        speed: Math.random() * 0.02 + 0.01,
+      });
+    }
+
     let time = 0;
 
     const animate = () => {
-      time += 0.005;
+      time += 0.01;
+      ctx.clearRect(0, 0, width, height);
 
-      // Clear with slight fade for trail effect
-      ctx.fillStyle = 'rgba(8, 9, 10, 0.4)';
-      ctx.fillRect(0, 0, width, height);
+      // Draw floating bubbles
+      bubbles.forEach((b) => {
+        b.x += b.vx;
+        b.y += b.vy;
 
-      // Aurora gradient blobs
-      for (let i = 0; i < 3; i++) {
-        const x = width / 2 + Math.cos(time + i * 2) * 300;
-        const y = height / 2 + Math.sin(time * 0.8 + i * 2) * 200;
-        const radius = 250 + Math.sin(time + i) * 80;
+        // Wrap around
+        if (b.x < -b.radius) b.x = width + b.radius;
+        if (b.x > width + b.radius) b.x = -b.radius;
+        if (b.y < -b.radius) b.y = height + b.radius;
+        if (b.y > height + b.radius) b.y = -b.radius;
 
-        const gradient = ctx.createRadialGradient(x, y, 0, x, y, radius);
-        const colors = [
-          'rgba(94, 106, 210, 0.08)',  // brand indigo
-          'rgba(113, 112, 255, 0.06)', // accent violet
-          'rgba(130, 143, 255, 0.05)', // light violet
-        ];
-        gradient.addColorStop(0, colors[i]);
-        gradient.addColorStop(1, 'rgba(8, 9, 10, 0)');
+        // Soft gradient bubble
+        const gradient = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.radius);
+        gradient.addColorStop(0, b.color);
+        gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
 
         ctx.fillStyle = gradient;
         ctx.beginPath();
-        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.arc(b.x, b.y, b.radius, 0, Math.PI * 2);
         ctx.fill();
-      }
+      });
 
-      // Particles with connections
-      particles.forEach((p, i) => {
-        // Update position
-        p.x += p.vx;
-        p.y += p.vy;
+      // Draw sparkles (twinkling stars)
+      sparkles.forEach((s) => {
+        s.phase += s.speed;
+        const opacity = (Math.sin(s.phase) + 1) / 2;
+        const size = s.size * (0.5 + opacity * 0.5);
 
-        // Wrap around edges
-        if (p.x < 0) p.x = width;
-        if (p.x > width) p.x = 0;
-        if (p.y < 0) p.y = height;
-        if (p.y > height) p.y = 0;
-
-        // Draw particle
+        // Star shape
+        ctx.fillStyle = `rgba(124, 58, 237, ${opacity * 0.6})`;
         ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(247, 248, 248, ${p.opacity})`;
+        ctx.arc(s.x, s.y, size, 0, Math.PI * 2);
         ctx.fill();
 
-        // Draw connections to nearby particles
-        for (let j = i + 1; j < particles.length; j++) {
-          const p2 = particles[j];
-          const dx = p.x - p2.x;
-          const dy = p.y - p2.y;
-          const distance = Math.sqrt(dx * dx + dy * dy);
-
-          if (distance < 120) {
-            ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(113, 112, 255, ${(1 - distance / 120) * 0.15})`;
-            ctx.lineWidth = 0.5;
-            ctx.stroke();
-          }
+        // Cross sparkle
+        if (size > 2) {
+          ctx.strokeStyle = `rgba(236, 72, 153, ${opacity * 0.4})`;
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          ctx.moveTo(s.x - size * 2, s.y);
+          ctx.lineTo(s.x + size * 2, s.y);
+          ctx.moveTo(s.x, s.y - size * 2);
+          ctx.lineTo(s.x, s.y + size * 2);
+          ctx.stroke();
         }
       });
 

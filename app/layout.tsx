@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AgentInsurance - Parametric Insurance for AI Agents",
-  description: "The first insurance protocol for autonomous AI agent failures",
+  title: "AgentInsurance - Insurance That Loves Your AI 💖",
+  description: "The cutest insurance protocol for AI agents. Smart contract magic, instant payouts, lots of love.",
 };
 
 export default function RootLayout({
@@ -13,9 +13,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="antialiased bg-black text-white">
-        {children}
-      </body>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link 
+          href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Quicksand:wght@400;500;600;700&display=swap" 
+          rel="stylesheet" 
+        />
+      </head>
+      <body>{children}</body>
     </html>
   );
 }

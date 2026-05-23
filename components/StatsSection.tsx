@@ -1,22 +1,17 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef, useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
+import { useState, useEffect } from 'react';
 
 export function StatsSection() {
-  const ref = useRef(null);
-  const [counts, setCounts] = useState({
-    coverage: 0,
-    agents: 0,
-    accuracy: 0
-  });
+  const [counts, setCounts] = useState({ coverage: 0, agents: 0, accuracy: 0 });
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCounts(prev => ({
+      setCounts((prev) => ({
         coverage: Math.min(prev.coverage + Math.random() * 500000, 2500000),
         agents: Math.min(prev.agents + Math.random() * 5, 150),
-        accuracy: Math.min(prev.accuracy + Math.random() * 0.5, 99.2)
+        accuracy: Math.min(prev.accuracy + Math.random() * 0.5, 99.2),
       }));
     }, 2000);
 
@@ -24,9 +19,7 @@ export function StatsSection() {
   }, []);
 
   return (
-    <section ref={ref} className="relative py-32 px-6 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#08090a] via-[#0f1011] to-[#08090a]" />
-      
+    <section className="relative py-32 px-6 overflow-hidden">
       <div className="relative z-10 max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -35,32 +28,49 @@ export function StatsSection() {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="display-sm text-[#f7f8f8] mb-4" style={{ fontFeatureSettings: '"cv01", "ss03"' }}>
-            Trusted by Builders
+          <motion.div
+            animate={{ scale: [1, 1.2, 1] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="inline-block mb-4 text-6xl"
+          >
+            💜
+          </motion.div>
+          <h2 className="display-sm md:display-md gradient-text mb-4">
+            Builders Love Us
           </h2>
-          <p className="body-lg text-[#8a8f98]">
-            Real coverage, real payouts, real protection for the agentic economy.
+          <p className="body-lg text-purple-700/70 font-medium">
+            Real bots, real coverage, real happiness 🌈
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {[
-            { label: 'Coverage Issued', value: counts.coverage, suffix: '$' },
-            { label: 'Agents Insured', value: counts.agents, suffix: '+' },
-            { label: 'Claim Accuracy', value: counts.accuracy, suffix: '%' }
+            { label: 'Coverage Issued', value: counts.coverage, suffix: '$', emoji: '💰', color: 'from-yellow-300 to-orange-300' },
+            { label: 'Bots Protected', value: counts.agents, suffix: '+', emoji: '🤖', color: 'from-purple-300 to-pink-300' },
+            { label: 'Happy Customers', value: counts.accuracy, suffix: '%', emoji: '😊', color: 'from-pink-300 to-rose-300' },
           ].map((stat, i) => (
             <motion.div
               key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30, scale: 0.9 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: i * 0.1, duration: 0.6 }}
-              className="p-8 rounded-lg bg-white/[0.02] border border-white/[0.08] backdrop-blur-linear text-center hover:bg-white/[0.04] transition-all duration-300"
+              transition={{ delay: i * 0.15, type: 'spring' }}
+              whileHover={{ y: -8, rotate: i % 2 === 0 ? 1 : -1 }}
+              className="card-cute p-8 text-center"
             >
-              <div className="text-5xl font-medium text-[#7170ff] mb-2 tracking-[-1.056px]" style={{ fontFeatureSettings: '"cv01", "ss03"' }}>
-                {stat.suffix === '$' ? '$' : ''}{Math.floor(stat.value).toLocaleString()}{stat.suffix}
+              <motion.div
+                animate={{ y: [0, -8, 0], rotate: [0, 10, -10, 0] }}
+                transition={{ duration: 3, repeat: Infinity, delay: i * 0.3 }}
+                className={`w-20 h-20 mx-auto rounded-3xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-4 text-5xl shadow-md`}
+              >
+                {stat.emoji}
+              </motion.div>
+              <div className="display-md gradient-text mb-1">
+                {stat.suffix === '$' ? '$' : ''}
+                {Math.floor(stat.value).toLocaleString()}
+                {stat.suffix !== '$' ? stat.suffix : ''}
               </div>
-              <p className="text-[#8a8f98] body-sm">{stat.label}</p>
+              <p className="text-sm font-bold text-purple-700/70">{stat.label}</p>
             </motion.div>
           ))}
         </div>

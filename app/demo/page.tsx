@@ -6,245 +6,273 @@ import { useState, useEffect } from 'react';
 export default function DemoPage() {
   const [scenario, setScenario] = useState<string | null>(null);
   const [step, setStep] = useState(0);
-  const [logs, setLogs] = useState<Array<{type: string; message: string; time: string}>>([]);
-  const [running, setRunning] = useState(false);
+  const [logs, setLogs] = useState<string[]>([]);
   const [payout, setPayout] = useState(0);
 
-  const scenarios = {
-    trading: {
-      name: 'Trading Bot Failure',
-      icon: '📈',
-      description: 'AI trading bot loses $50,000 in flash crash',
+  const scenarios = [
+    {
+      id: 'trading',
+      emoji: '📉',
+      title: 'Trading Bot Oopsie',
+      description: 'AI bot loses $50K in a flash crash 😱',
       coverage: 100000,
       payout: 50000,
-      steps: [
-        { type: 'info', message: '🤖 Trading bot active on Binance', delay: 1000 },
-        { type: 'info', message: '📊 Monitoring 5 trading pairs', delay: 1500 },
-        { type: 'warning', message: '⚠️ Flash crash detected on BTC/USDT', delay: 2000 },
-        { type: 'error', message: '❌ Bot executed 50 trades in 2 seconds', delay: 1500 },
-        { type: 'error', message: '💸 Loss: $50,000 (exceeds threshold)', delay: 1500 },
-        { type: 'info', message: '🔍 Oracle verifying loss event...', delay: 2000 },
-        { type: 'info', message: '✅ Oracle consensus reached (3/3 nodes)', delay: 1500 },
-        { type: 'info', message: '📝 Smart contract triggered', delay: 1000 },
-        { type: 'success', message: '💰 Payout initiated: $50,000 USDC', delay: 1500 },
-        { type: 'success', message: '✅ Funds received in 47 seconds', delay: 1000 },
-      ]
+      color: 'from-red-300 to-pink-300',
+      logs: [
+        '🤖 Trading bot connected to ZepInsurance',
+        '👀 Monitoring market activity...',
+        '📉 ALERT: Flash crash detected! BTC -15% in 2 min',
+        '💔 Bot positions: -$50,000 unrealized loss',
+        '🚨 Trigger condition met: loss_exceeds_threshold',
+        '🔮 Oracle network verifying...',
+        '✅ Consensus reached (5/5 nodes)',
+        '📜 Smart contract executing payout',
+        '💸 Sending $50,000 USDC to bot wallet',
+        '🎉 PAID! Crisis averted in 47 seconds',
+      ],
     },
-    autonomous: {
-      name: 'Autonomous Agent Error',
-      icon: '🤖',
-      description: 'Decision-making AI causes $25,000 in damages',
+    {
+      id: 'autonomous',
+      emoji: '🤔',
+      title: 'AI Made a Boo-Boo',
+      description: 'Smart agent caused $25K in damages 🙈',
       coverage: 50000,
       payout: 25000,
-      steps: [
-        { type: 'info', message: '🤖 Autonomous agent making decisions', delay: 1000 },
-        { type: 'info', message: '📋 Processing customer requests', delay: 1500 },
-        { type: 'warning', message: '⚠️ Anomaly detected in decision logic', delay: 2000 },
-        { type: 'error', message: '❌ Wrong decision: $25K refunds issued', delay: 1500 },
-        { type: 'error', message: '🚨 Coverage trigger activated', delay: 1500 },
-        { type: 'info', message: '🔍 Verifying error patterns...', delay: 2000 },
-        { type: 'info', message: '✅ Error confirmed by oracle network', delay: 1500 },
-        { type: 'info', message: '📝 Smart contract executing payout', delay: 1000 },
-        { type: 'success', message: '💰 Payout: $25,000 USDC', delay: 1500 },
-        { type: 'success', message: '✅ Coverage paid in 52 seconds', delay: 1000 },
-      ]
+      color: 'from-yellow-300 to-orange-300',
+      logs: [
+        '🤖 Autonomous agent active',
+        '⚙️ Executing decision logic...',
+        '⚠️ ANOMALY: Unexpected output detected',
+        '💔 Damages assessed: $25,000',
+        '🔍 Behavior analysis: agent_error_class_3',
+        '🚨 Coverage trigger: autonomous_error_payout',
+        '🔮 Oracle verifying error classification',
+        '✅ Verified by 4/5 oracles (80% threshold)',
+        '📜 Executing payout smart contract',
+        '💸 $25,000 USDC sent. All good now! 💖',
+      ],
     },
-    data: {
-      name: 'Data Breach Coverage',
-      icon: '🔓',
-      description: 'AI data pipeline exposes sensitive info',
+    {
+      id: 'breach',
+      emoji: '🔓',
+      title: 'Whoopsie, Data Leak!',
+      description: 'AI pipeline exposed sensitive info 🫣',
       coverage: 200000,
       payout: 150000,
-      steps: [
-        { type: 'info', message: '📊 Data pipeline processing 1M records', delay: 1000 },
-        { type: 'warning', message: '⚠️ Unusual access pattern detected', delay: 2000 },
-        { type: 'error', message: '❌ Breach: 10K records exposed', delay: 1500 },
-        { type: 'error', message: '🚨 Compliance violation triggered', delay: 1500 },
-        { type: 'info', message: '🔍 Forensic verification in progress...', delay: 2500 },
-        { type: 'info', message: '✅ Breach confirmed, scope identified', delay: 1500 },
-        { type: 'info', message: '📝 GDPR coverage activating', delay: 1000 },
-        { type: 'success', message: '💰 Payout: $150,000 USDC', delay: 1500 },
-        { type: 'success', message: '✅ Funds + legal support deployed', delay: 1000 },
-      ]
-    }
-  };
+      color: 'from-blue-300 to-purple-300',
+      logs: [
+        '🤖 Data pipeline running',
+        '🔄 Processing batch: 10K records',
+        '🚨 BREACH: Unauthorized data access detected',
+        '💔 Records exposed: 5,000',
+        '📊 Estimated damage: $150,000',
+        '🛡️ Coverage: data_breach_protection',
+        '🔮 Oracle verifying breach scope',
+        '✅ Multi-sig consensus achieved',
+        '📜 Executing breach_payout contract',
+        '💸 $150,000 USDC sent. Crisis handled! 🎉',
+      ],
+    },
+  ];
 
-  const startSimulation = (scenarioId: string) => {
-    setScenario(scenarioId);
+  const runScenario = async (id: string) => {
+    setScenario(id);
     setStep(0);
     setLogs([]);
-    setRunning(true);
     setPayout(0);
-  };
 
-  useEffect(() => {
-    if (!running || !scenario) return;
-    
-    const currentScenario = scenarios[scenario as keyof typeof scenarios];
-    if (step >= currentScenario.steps.length) {
-      setRunning(false);
-      setPayout(currentScenario.payout);
-      return;
+    const s = scenarios.find((x) => x.id === id);
+    if (!s) return;
+
+    for (let i = 0; i < s.logs.length; i++) {
+      await new Promise((r) => setTimeout(r, 700));
+      setLogs((prev) => [...prev, s.logs[i]]);
+      setStep(i + 1);
     }
 
-    const currentStep = currentScenario.steps[step];
-    const timer = setTimeout(() => {
-      setLogs(prev => [...prev, {
-        type: currentStep.type,
-        message: currentStep.message,
-        time: new Date().toLocaleTimeString()
-      }]);
-      setStep(step + 1);
-    }, currentStep.delay);
-
-    return () => clearTimeout(timer);
-  }, [step, running, scenario]);
+    await new Promise((r) => setTimeout(r, 500));
+    setPayout(s.payout);
+  };
 
   const reset = () => {
     setScenario(null);
     setStep(0);
     setLogs([]);
-    setRunning(false);
     setPayout(0);
   };
 
   return (
-    <main className="min-h-screen bg-black text-white p-6">
-      <div className="max-w-6xl mx-auto py-12">
+    <main className="relative min-h-screen py-20 px-6">
+      <div className="relative max-w-5xl mx-auto z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-12"
+          className="mb-12 text-center"
         >
-          <a href="/" className="text-purple-400 hover:text-purple-300 mb-4 inline-block">← Back to Home</a>
-          <h1 className="text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-white via-purple-200 to-blue-200">
-            Live Demo
-          </h1>
-          <p className="text-xl text-gray-400">Watch AgentInsurance in action with real-time scenarios</p>
+          <a href="/" className="inline-flex items-center gap-2 text-purple-700 font-bold mb-6 hover:text-purple-900 transition-colors">
+            <span>←</span>
+            <span>Back to Home</span>
+          </a>
+          <motion.div
+            animate={{ rotate: [0, 360] }}
+            transition={{ duration: 8, repeat: Infinity, ease: 'linear' }}
+            className="text-6xl mb-4 inline-block"
+          >
+            🎬
+          </motion.div>
+          <h1 className="display-md md:display-lg gradient-text mb-4">Live Demo Time!</h1>
+          <p className="body-lg text-purple-700/70 max-w-2xl mx-auto font-medium">
+            Pick a scenario and watch the magic happen in real-time ✨
+          </p>
         </motion.div>
 
         {!scenario ? (
-          /* Scenario selection */
-          <div className="grid md:grid-cols-3 gap-6">
-            {Object.entries(scenarios).map(([id, s], index) => (
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {scenarios.map((s, i) => (
               <motion.button
-                key={id}
-                initial={{ opacity: 0, y: 20 }}
+                key={s.id}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-                whileHover={{ scale: 1.02, y: -5 }}
+                transition={{ delay: i * 0.1, type: 'spring' }}
+                whileHover={{ y: -8, scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => startSimulation(id)}
-                className="bg-white/5 border border-white/10 rounded-2xl p-8 text-left hover:bg-white/10 hover:border-purple-500/50 transition-all"
+                onClick={() => runScenario(s.id)}
+                className="card-cute p-6 text-left group"
               >
-                <div className="text-6xl mb-4">{s.icon}</div>
-                <h3 className="text-2xl font-bold mb-2">{s.name}</h3>
-                <p className="text-gray-400 mb-6">{s.description}</p>
-                <div className="space-y-2 mb-6">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Coverage</span>
-                    <span className="font-semibold">${s.coverage.toLocaleString()}</span>
+                <motion.div
+                  whileHover={{ rotate: [0, -10, 10, 0], scale: 1.1 }}
+                  transition={{ duration: 0.5 }}
+                  className={`w-20 h-20 rounded-3xl bg-gradient-to-br ${s.color} flex items-center justify-center mb-4 text-5xl shadow-md`}
+                >
+                  {s.emoji}
+                </motion.div>
+                <h3 className="heading-md text-purple-900 mb-2">{s.title}</h3>
+                <p className="body-sm text-purple-700/70 mb-4">{s.description}</p>
+                <div className="space-y-1 mb-4 text-sm">
+                  <div className="flex justify-between font-bold">
+                    <span className="text-purple-700/70">Coverage</span>
+                    <span className="text-purple-900">${s.coverage.toLocaleString()}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Expected Payout</span>
-                    <span className="font-semibold text-green-400">${s.payout.toLocaleString()}</span>
+                  <div className="flex justify-between font-bold">
+                    <span className="text-purple-700/70">Payout</span>
+                    <span className="gradient-text-warm">${s.payout.toLocaleString()}</span>
                   </div>
                 </div>
-                <div className="px-4 py-2 bg-purple-500/20 border border-purple-500/50 rounded-lg text-center font-semibold">
-                  ▶ Start Simulation
+                <div className="btn-primary w-full justify-center group-hover:scale-105">
+                  <span>▶️</span>
+                  <span>Run Demo</span>
                 </div>
               </motion.button>
             ))}
           </div>
         ) : (
-          /* Simulation running */
-          <div className="grid lg:grid-cols-2 gap-8">
-            {/* Left: Status */}
-            <div>
-              <div className="bg-gradient-to-br from-purple-900/20 to-blue-900/20 border border-white/10 rounded-2xl p-6 mb-6">
-                <div className="text-6xl mb-4">{scenarios[scenario as keyof typeof scenarios].icon}</div>
-                <h2 className="text-2xl font-bold mb-2">{scenarios[scenario as keyof typeof scenarios].name}</h2>
-                <p className="text-gray-400 mb-4">{scenarios[scenario as keyof typeof scenarios].description}</p>
-                
-                <div className="space-y-3 pt-4 border-t border-white/10">
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Status</span>
-                    <span className={`font-semibold ${running ? 'text-yellow-400' : payout > 0 ? 'text-green-400' : 'text-gray-400'}`}>
-                      {running ? '⏳ Processing...' : payout > 0 ? '✅ Resolved' : '⏸️ Idle'}
-                    </span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Steps</span>
-                    <span className="font-semibold">{step}/{scenarios[scenario as keyof typeof scenarios].steps.length}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-400">Coverage</span>
-                    <span className="font-semibold">${scenarios[scenario as keyof typeof scenarios].coverage.toLocaleString()}</span>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="card-cute p-8"
+          >
+            {/* Scenario header */}
+            {(() => {
+              const s = scenarios.find((x) => x.id === scenario);
+              if (!s) return null;
+              return (
+                <div className="flex items-center gap-4 mb-6">
+                  <motion.div
+                    animate={{ rotate: [0, 10, -10, 0] }}
+                    transition={{ duration: 2, repeat: Infinity }}
+                    className={`w-16 h-16 rounded-3xl bg-gradient-to-br ${s.color} flex items-center justify-center text-4xl shadow-md`}
+                  >
+                    {s.emoji}
+                  </motion.div>
+                  <div>
+                    <h2 className="heading-lg text-purple-900">{s.title}</h2>
+                    <p className="body-sm text-purple-700/70">{s.description}</p>
                   </div>
                 </div>
-              </div>
+              );
+            })()}
 
-              {/* Payout result */}
+            {/* Progress bar */}
+            <div className="mb-6">
+              <div className="flex justify-between text-sm font-bold text-purple-700/70 mb-2">
+                <span>Progress</span>
+                <span>
+                  {step}/
+                  {scenarios.find((s) => s.id === scenario)?.logs.length}
+                </span>
+              </div>
+              <div className="h-3 bg-purple-100 rounded-full overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{
+                    width: `${(step / (scenarios.find((s) => s.id === scenario)?.logs.length || 1)) * 100}%`,
+                  }}
+                  className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
+                />
+              </div>
+            </div>
+
+            {/* Logs */}
+            <div className="bg-gradient-to-br from-purple-900 to-pink-900 rounded-2xl p-4 mb-6 max-h-96 overflow-y-auto font-mono text-sm">
               <AnimatePresence>
-                {payout > 0 && (
+                {logs.map((log, i) => (
                   <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    className="bg-gradient-to-br from-green-500/20 to-emerald-500/20 border border-green-500/50 rounded-2xl p-6 mb-6"
+                    key={i}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.3 }}
+                    className="text-purple-100 py-1"
                   >
-                    <div className="text-5xl mb-2">💰</div>
-                    <div className="text-sm text-green-400 mb-1">Payout Received</div>
-                    <div className="text-4xl font-bold mb-2">${payout.toLocaleString()} USDC</div>
-                    <div className="text-sm text-gray-400">Settlement time: 47 seconds</div>
+                    <span className="text-pink-300">[{new Date().toLocaleTimeString()}]</span> {log}
                   </motion.div>
-                )}
+                ))}
               </AnimatePresence>
+            </div>
 
-              <button
-                onClick={reset}
-                className="w-full px-6 py-3 rounded-lg bg-white/5 border border-white/10 hover:bg-white/10 transition-colors"
+            {/* Payout */}
+            {payout > 0 && (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ type: 'spring' }}
+                className="bg-gradient-to-br from-green-100 to-blue-100 border-2 border-green-300 rounded-3xl p-8 text-center mb-6"
               >
-                ← Try Another Scenario
-              </button>
-            </div>
+                <motion.div
+                  animate={{ rotate: [0, 360], scale: [1, 1.2, 1] }}
+                  transition={{ duration: 1 }}
+                  className="text-7xl mb-3"
+                >
+                  💰
+                </motion.div>
+                <p className="text-sm font-bold text-purple-700 uppercase tracking-wide mb-1">PAYOUT COMPLETE!</p>
+                <div className="display-md gradient-text-warm mb-2">
+                  ${payout.toLocaleString()}
+                </div>
+                <p className="text-purple-900 font-bold">USDC sent in 47 seconds 🎉</p>
+              </motion.div>
+            )}
 
-            {/* Right: Live logs */}
-            <div className="bg-black/50 border border-white/10 rounded-2xl p-6 font-mono">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-3 h-3 rounded-full bg-red-500" />
-                <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                <div className="w-3 h-3 rounded-full bg-green-500" />
-                <div className="text-xs text-gray-500 ml-2">agent-insurance-demo</div>
-              </div>
-
-              <div className="space-y-2 h-[500px] overflow-y-auto">
-                <AnimatePresence>
-                  {logs.map((log, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      className={`text-sm ${
-                        log.type === 'error' ? 'text-red-400' :
-                        log.type === 'warning' ? 'text-yellow-400' :
-                        log.type === 'success' ? 'text-green-400' :
-                        'text-gray-300'
-                      }`}
-                    >
-                      <span className="text-gray-600">[{log.time}]</span> {log.message}
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-                {running && (
-                  <div className="flex items-center gap-2 text-gray-500">
-                    <span className="animate-pulse">▋</span>
-                    <span className="text-xs">Processing...</span>
-                  </div>
-                )}
-              </div>
+            {/* Action buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                onClick={reset}
+                className="btn-secondary justify-center"
+              >
+                <span>🔄</span>
+                Try Another
+              </motion.button>
+              <motion.a
+                whileHover={{ scale: 1.05 }}
+                href="/"
+                className="btn-primary justify-center"
+              >
+                <span>🏠</span>
+                Back Home
+              </motion.a>
             </div>
-          </div>
+          </motion.div>
         )}
       </div>
     </main>

@@ -10,7 +10,7 @@ import { AnimatedBackground } from '@/components/AnimatedBackground';
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-[#08090a] overflow-hidden">
+    <main className="relative min-h-screen overflow-hidden">
       <AnimatedBackground />
       <div className="relative z-10">
         <HeroSection />
